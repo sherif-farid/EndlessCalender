@@ -12,7 +12,9 @@ project.afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                artifact androidSourcesJar // optional sources
+                groupId = 'com.sherif.mycalender'
+                artifactId = 'GB_CALENDER'
+                version = '1.0.4'
             }
         }
     }
@@ -23,8 +25,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 104
+        versionName "1.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
