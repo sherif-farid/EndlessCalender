@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">التقويم</string>
+    <string-array name="week_days">
+        <item name="sun">الأحد</item>
+        <item name="mon">الإثنين</item>
+        <item name="tu">الثلاثاء</item>
+        <item name="wed">الاربعاء</item>
+        <item name="th">الخميس</item>
+        <item name="fri">الجمعه</item>
+        <item name="sat">السبت</item>
+    </string-array>
+    <string-array name="months">
+        <item name="jen">يناير</item>
+        <item name="feb">فبراير</item>
+        <item name="mar">مارس</item>
+        <item name="apr">إبريل</item>
+        <item name="may">مايو</item>
+        <item name="jun">يونيو</item>
+        <item name="jul">يوليو</item>
+        <item name="aug">إغسطس</item>
+        <item name="sep">سبتمبر</item>
+        <item name="oct">أكتوبر</item>
+        <item name="nov">نوفمبر</item>
+        <item name="dec">ديسمبر</item>
+    </string-array>
+</resources>

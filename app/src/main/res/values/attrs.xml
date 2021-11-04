@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CalendarRecyclerView">
+        <!--        start date in format 2021-01-01 if not provided will start from jen current year-->
+        <attr name="StartDate" format="string" />
+        <!--        to enable select range , the default value is false-->
+        <attr name="EnableRange" format="boolean" />
+        <!--        end date in format 2021-12-01 if not provided will end in dec current year-->
+        <attr name="EndDate" format="string" />
+        <attr name="ShowWeekDays" format="boolean"/>
+
+        <attr name="startDrawable" format="reference"/>
+        <attr name="endDrawable" format="reference"/>
+        <attr name="rangeDrawable" format="reference"/>
+        <attr name="singleDrawable" format="reference"/>
+    </declare-styleable>
+
+</resources>
