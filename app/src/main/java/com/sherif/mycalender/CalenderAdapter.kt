@@ -20,25 +20,21 @@ import com.sherif.mycalender.databinding.MonthTitleItemBinding
 import com.sherif.mycalender.databinding.WeekDaysItemBinding
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CalenderAdapter(
     private val context: Context,
     private val arrayList: ArrayList<CalenderModel>,
     private val showWeekDays: Boolean,
-    private val startDrawableRefId: Int,
-    private val endDrawableRefId: Int,
-    private val rangeDrawableRefId: Int,
-    private val singleDrawableRefId: Int ,
-     var nightsLimit:Int
+    private val busyDrawableRefId: Int,
+    private val bookedDrawableRefId: Int,
+    private val singleDrawableRefId: Int
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TAG = "CalenderAdapterTAG"
-    private var fromDate: CalenderModel? = null
-    private var toDate: CalenderModel? = null
     private var onDateSelected: OnDateSelected? = null
-    private var onError:OnError? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -54,11 +50,8 @@ class CalenderAdapter(
                 WeekDaysViewHolder(binding2)
             }
 
-            /*CalenderModel.dayTextViewType*/ else -> {
+          else -> {
                 val dayBind: DayItemBinding = DayItemBinding.inflate(inflater, parent, false)
-//                val params = dayBind.day.layoutParams
-//                params.height = width/7
-//                dayBind.day.layoutParams = params
                 DaysViewHolder(dayBind)
             }
 
@@ -126,7 +119,6 @@ class CalenderAdapter(
     }
 
     private fun initItemDays(holder: DaysViewHolder, model: CalenderModel?) {
-//        Log.v(TAG , "model?.shapeState : ${model?.shapeState} date :${model?.date}")
         var day = 0
         if (model?.date != null) {
             val calendar = Calendar.getInstance()
@@ -146,8 +138,10 @@ class CalenderAdapter(
                     R.color.mydarkgray, null
                 )
             }
-            CalenderModel.shapeFlagUnAvailable -> {
-                dayTextDrawable = null
+            CalenderModel.shapeFlagBooked -> {
+                dayTextDrawable = ResourcesCompat.getDrawable(
+                    context.resources, bookedDrawableRefId, null
+                )
                 textColor = ResourcesCompat.getColor(
                     context.resources,
                     R.color.grayText, null
@@ -167,52 +161,23 @@ class CalenderAdapter(
                 )
                 frameDrawable = null
             }
-            CalenderModel.shapeFlagStart -> {
-                textColor = ResourcesCompat.getColor(
-                    context.resources,
-                    R.color.mywhite, null
-                )
-                dayTextDrawable = ResourcesCompat.getDrawable(
-                    context.resources, singleDrawableRefId, null
-                )
-                frameDrawable = ResourcesCompat.getDrawable(
-                    context.resources, startDrawableRefId, null
-                )
-            }
-            CalenderModel.shapeFlagRange -> {
-                dayTextDrawable = null
-                frameDrawable = ResourcesCompat.getDrawable(
-                    context.resources, rangeDrawableRefId, null
-                )
-                textColor = ResourcesCompat.getColor(
-                    context.resources,
-                    R.color.colorPrimary, null
-                )
-            }
-            CalenderModel.shapeFlagEnd -> {
-                textColor = ResourcesCompat.getColor(
-                    context.resources,
-                    R.color.mywhite, null
-                )
-                dayTextDrawable = ResourcesCompat.getDrawable(
-                    context.resources, singleDrawableRefId, null
-                )
-                frameDrawable = ResourcesCompat.getDrawable(
-                    context.resources, endDrawableRefId, null
-                )
-            }
+        }
+        if (model?.isBusy == true && model.shapeState != CalenderModel.shapeFlagSingleSelection){
+            dayTextDrawable= ResourcesCompat.getDrawable(
+                context.resources, busyDrawableRefId, null
+            )
+            holder.binding.disableLine.visibility = View.VISIBLE
         }
         holder.binding.day.background = dayTextDrawable
         holder.binding.dayFrame.background = frameDrawable
         holder.binding.day.setTextColor(textColor)
+
     }
 
     fun setOnDateSelected(onDateSelected: OnDateSelected?) {
         this.onDateSelected = onDateSelected
     }
-    fun setOnError(onError:OnError?){
-        this.onError = onError
-    }
+
 
     class TitleViewHolder internal constructor(binding: MonthTitleItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -239,89 +204,46 @@ class CalenderAdapter(
             val clickedModel = arrayList[pos]
             if (clickedModel.date == null) return
             if (clickedModel.shapeState == CalenderModel.shapeFlagDisabled) return
-            if (clickedModel.shapeState == CalenderModel.shapeFlagUnAvailable) return
-            //
-            if (fromDate != null &&
-                toDate == null &&
-                clickedModel.date?.after(fromDate?.date) == true &&
-                clickedModel.date?.equals(fromDate?.date) == false
-            ) {
-                val startPos = arrayList.indexOf(fromDate)
-                arrayList[startPos].shapeState = CalenderModel.shapeFlagStart
-                clickedModel.shapeState = CalenderModel.shapeFlagEnd
-                toDate = clickedModel
-                if (getNightsCount() > nightsLimit){
-                    onError?.onNightsLimitReached(nightsLimit)
-                    resetClickedAsStart(clickedModel)
-                }else {
-                    setRange(startPos, pos)
-                }
-            } else {
-                resetClickedAsStart(clickedModel)
+            if (clickedModel.shapeState == CalenderModel.shapeFlagBooked) {
+                onDateSelected?.onBookedDatesSelected()
+                return
             }
-            notifyDataSetChanged()
-            onDateSelected?.onSelected(
-                parseDate(fromDate?.date),
-                parseDate(toDate?.date?:getTomorrow()),
-                getNightsCount()
-            )
+
+            if (clickedModel.shapeState == CalenderModel.shapeFlagSingleSelection) {
+                clickedModel.shapeState =
+                    CalenderModel.shapeFlagNone// should hold initial states
+            } else {
+                clickedModel.shapeState = CalenderModel.shapeFlagSingleSelection
+            }
+            notifyItemChanged(pos)
+            val availableList: ArrayList<String> = ArrayList()
+            val busyList: ArrayList<String> = ArrayList()
+            arrayList.forEach {
+                // free days selected to be busy
+                if (it.shapeState == CalenderModel.shapeFlagSingleSelection && !it.isBusy) {
+                    availableList.add(parseDate(it.date) ?: "")
+                }
+                // busy days selected to remove busy and make it available
+                if (it.isBusy && it.shapeState == CalenderModel.shapeFlagSingleSelection){
+                    busyList.add(parseDate(it.date) ?: "")
+                }
+            }
+            onDateSelected?.onSelected(availableList ,busyList )
         }
 
         init {
             binding.day.setOnClickListener(this)
         }
     }
-    private fun getTomorrow():Date?{
-        val today = Calendar.getInstance()
-        today.time = fromDate?.date?:return null
-        today.add(Calendar.DATE ,1)
-        return today.time
-    }
 
-    private fun resetClickedAsStart(clickedModel: CalenderModel) {
-        clearAllSelections("288")
-        fromDate = clickedModel
-        clickedModel.shapeState = CalenderModel.shapeFlagSingleSelection
-        toDate = null
-    }
-    private fun clearAllSelections(line:String) {
-//        Log.v(TAG , "line $line")
+
+
+
+    fun clearAll() {
         for (model in arrayList) {
             model.shapeState = CalenderModel.shapeFlagNone
         }
-    }
-     fun clearAll(){
-        clearAllSelections("300")
-        fromDate = null
-        toDate = null
         notifyDataSetChanged()
-    }
-    private fun setRange(start: Int, end: Int) {
-
-        for (model in arrayList) {
-            if (arrayList.indexOf(model) > start && arrayList.indexOf(model) < end) {
-                if (model.shapeState == CalenderModel.shapeFlagUnAvailable) {
-                    // clear all selection and you can inform user here
-//                    Log.e(TAG, "first cross dates ${model.date}")
-                    onError?.onCrossDate()
-                    clearAllSelections("313")
-                    val newModel = arrayList[end]
-                    newModel.shapeState = CalenderModel.shapeFlagSingleSelection
-                    fromDate = newModel
-                    toDate = null
-                    return
-                }
-                model.shapeState = CalenderModel.shapeFlagRange
-            }
-        }
-    }
-
-    private fun getNightsCount(): Int {
-        val from: Long = fromDate?.date?.time ?: 0
-        val to: Long = toDate?.date?.time ?: 0
-        var nights: Int = ((to - from) / 86400000).toInt()
-        if (nights < 1) nights = 1
-        return nights
     }
 
     private fun parseDate(date: Date?): String? {

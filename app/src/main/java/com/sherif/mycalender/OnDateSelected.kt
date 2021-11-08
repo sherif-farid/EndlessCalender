@@ -9,6 +9,6 @@ package com.sherif.mycalender
  */
 
 interface OnDateSelected {
-    fun onSelected(from: String?, to: String? , nights:Int)
-
+    fun onSelected(availableList:ArrayList<String>? , busyList:ArrayList<String>?)
+    fun onBookedDatesSelected()
 }

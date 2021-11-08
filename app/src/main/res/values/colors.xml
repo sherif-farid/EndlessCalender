@@ -8,5 +8,8 @@
     <color name="textBlackColor">#000000</color>
     <color name="mydarkgray">#b9b9b9</color>
     <color name="grayText">#848484</color>
+    <color name="busyColor">#26848484</color>
+    <color name="bookedColor">#80848484</color>
+
 
 </resources>
