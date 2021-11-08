@@ -2,7 +2,6 @@ package com.sherif.myapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.sherif.myapplication.databinding.ActivityMainBinding
 import com.sherif.mycalender.OnDateSelected
 
