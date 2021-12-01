@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        app:ShowWeekDays="false"
+        app:ShowWeekDays="true"
         app:busyDrawable="@drawable/busy_days_shape"
         app:bookedDrawable="@drawable/booked_days_shape"
         app:singleDrawable="@drawable/single_shape"

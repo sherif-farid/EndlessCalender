@@ -93,9 +93,13 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
             arrayList.add(CalenderModel(date, CalenderModel.weekDaysViewType)) // add week days
             val currentMonth = calStartDate[Calendar.MONTH]
             //set blank days in start of month
-            val blankDays = calStartDate[Calendar.DAY_OF_WEEK]
-            if (blankDays != 7) for (i in 1 until blankDays) {
-                arrayList.add(CalenderModel(null, CalenderModel.dayTextViewType))
+            val blankDays = calStartDate[Calendar.DAY_OF_WEEK]-1
+//            Log.v(TAG , "blankDays $blankDays monthsAdded $monthsAdded months $months calStartDate.time ${calStartDate.time}")
+            if (blankDays != 7) {
+                for (i in 0 until blankDays) {
+//                    Log.v(TAG , "i $i")
+                    arrayList.add(CalenderModel(null, CalenderModel.dayTextViewType))
+                }
             }
             // define day milliseconds because current day time may be not started
             // from 00:00:00
@@ -137,10 +141,14 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
             arrayList.add(CalenderModel(date, CalenderModel.weekDaysViewType)) // add week days
             val currentMonth = calStartDate[Calendar.MONTH]
             //set blank days in start of month
-            val blankDays = calStartDate[Calendar.DAY_OF_WEEK]
-            if (blankDays != 7) for (i in 1 until blankDays) {
-                arrayList.add(CalenderModel(null, CalenderModel.dayTextViewType))
-            }
+            val blankDays = calStartDate[Calendar.DAY_OF_WEEK]-1
+//             Log.v(TAG , "blankDays $blankDays monthsAdded $monthsAdded months $months calStartDate.time ${calStartDate.time}")
+             if (blankDays != 7) {
+                 for (i in 0 until blankDays) {
+//                     Log.v(TAG , "i $i")
+                     arrayList.add(CalenderModel(null, CalenderModel.dayTextViewType))
+                 }
+             }
             // define day milliseconds because current day time may be not started
             // from 00:00:00
             val day = 86400000
