@@ -7,7 +7,6 @@ package com.sherif.mycalender
  * email: sherffareed39@gmail.com.
  * phone: 00201007538470
  */
-
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
