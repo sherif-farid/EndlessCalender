@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/booked_shape.xml" value="0.1796875" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/busy_shape.xml" value="0.1671875" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/end_range.xml" value="0.1671875" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/range.xml" value="0.1796875" />

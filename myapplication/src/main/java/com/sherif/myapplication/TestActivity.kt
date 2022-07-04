@@ -3,12 +3,13 @@ package com.sherif.myapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.sherif.myapplication.databinding.ActivityMainBinding
+import com.sherif.mycalender.GathernReservationModel
 import com.sherif.mycalender.OnDateSelected
 
 class TestActivity : AppCompatActivity(), OnDateSelected {
     private var binding: ActivityMainBinding? = null
-    private var availableList:ArrayList<String>? = null
-    private var busyList:ArrayList<String>? = null
+    private var availableList: ArrayList<String>? = null
+    private var busyList: ArrayList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,10 +20,32 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
 
     override fun onStart() {
         super.onStart()
+        val bookedList = ArrayList<GathernReservationModel?>()
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-07-01",
+                checkoutDate = "",
+                clientName = "تامر"
+            )
+        )
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-07-05",
+                checkoutDate = "",
+                clientName = "احمد"
+            )
+        )
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-07-08",
+                checkoutDate = "",
+                clientName = "محمد"
+            )
+        )
         binding?.calenderRv?.post {
             binding?.calenderRv?.initialize(
-                bookedList = arrayListOf("2021-11-24", "2021-11-25" , "2023-11-25"),
-                busyList = arrayListOf("2021-11-30", "2021-12-01", "2021-12-02","2023-11-26")
+                bookedList = bookedList,
+                busyList = arrayListOf("2022-07-30", "2022-07-26", "2022-07-20")
             )
         }
     }
@@ -39,11 +62,11 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
     }
 
     override fun onBackPressed() {
-        val availableSize =availableList?.size?:0
-        val busySize = busyList?.size?:0
-        if (availableSize > 0 || busySize > 0){
+        val availableSize = availableList?.size ?: 0
+        val busySize = busyList?.size ?: 0
+        if (availableSize > 0 || busySize > 0) {
             binding?.calenderRv?.clearAll()
-        }else {
+        } else {
             super.onBackPressed()
         }
     }

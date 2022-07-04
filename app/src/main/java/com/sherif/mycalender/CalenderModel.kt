@@ -12,10 +12,13 @@ import java.util.*
 
 
 
-class CalenderModel(var date: Date?, var viewType: Int ,var isBusy:Boolean = false) {
+class CalenderModel(var date: Date?,
+                    var viewType: Int ,
+                    var isBusy:Boolean = false ,
+                    var clientName:String = "") {
      var shapeState = shapeFlagNone
         set(value) {
-            if (field != shapeFlagDisabled && field !=shapeFlagBooked)
+            if (field != shapeFlagDisabled && field !=shapeFlagGathernStart)
             field = value
         }
 
@@ -29,7 +32,8 @@ class CalenderModel(var date: Date?, var viewType: Int ,var isBusy:Boolean = fal
         const val shapeFlagNone = 0
         const val shapeFlagSingleSelection = 1
         const val shapeFlagDisabled = 5// like past days
-        const val shapeFlagBooked = 6 // cross dash on the view
+        // cross dash on the view removed and replaced with client name
+        const val shapeFlagGathernStart = 6
     }
 
 

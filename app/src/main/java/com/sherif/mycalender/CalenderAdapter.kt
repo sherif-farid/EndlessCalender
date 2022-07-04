@@ -10,6 +10,7 @@ package com.sherif.mycalender
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,7 +55,6 @@ class CalenderAdapter(
                 val dayBind: DayItemBinding = DayItemBinding.inflate(inflater, parent, false)
                 DaysViewHolder(dayBind)
             }
-
         }
     }
 
@@ -125,28 +125,41 @@ class CalenderAdapter(
             calendar.time = model.date!!
             day = calendar[Calendar.DAY_OF_MONTH]
         }
-        holder.binding.day.text = if (day == 0) "" else day.toString()
+        holder.binding.day.text = when {
+                day == 0 -> ""
+                model?.clientName?.isNotEmpty() == true -> model.clientName
+                else -> day.toString()
+            }
         var dayTextDrawable: Drawable? = null
         var frameDrawable: Drawable? = null
         var textColor = ResourcesCompat.getColor(context.resources, R.color.textBlackColor, null)
         holder.binding.disableLine.visibility = View.GONE
+        holder.binding.dayFrame.alpha = 1f
+        holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,18f)
         when (model?.shapeState) {
             CalenderModel.shapeFlagDisabled -> {
-                dayTextDrawable = null
-                textColor = ResourcesCompat.getColor(
-                    context.resources,
-                    R.color.mydarkgray, null
-                )
+                holder.binding.dayFrame.alpha = 0.2f
+                if (model.clientName.isNotEmpty()){
+                    dayTextDrawable = ResourcesCompat.getDrawable(
+                        context.resources, bookedDrawableRefId, null
+                    )
+                    textColor = ResourcesCompat.getColor(
+                        context.resources,
+                        R.color.mywhite, null
+                    )
+                    holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,12f)
+                }
             }
-            CalenderModel.shapeFlagBooked -> {
+            CalenderModel.shapeFlagGathernStart -> {
                 dayTextDrawable = ResourcesCompat.getDrawable(
                     context.resources, bookedDrawableRefId, null
                 )
                 textColor = ResourcesCompat.getColor(
                     context.resources,
-                    R.color.grayText, null
+                    R.color.mywhite, null
                 )
-                holder.binding.disableLine.visibility = View.VISIBLE
+                holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,12f)
+//                holder.binding.disableLine.visibility = View.VISIBLE
             }
             CalenderModel.shapeFlagNone -> {
                 dayTextDrawable = null
@@ -171,7 +184,6 @@ class CalenderAdapter(
         holder.binding.day.background = dayTextDrawable
         holder.binding.dayFrame.background = frameDrawable
         holder.binding.day.setTextColor(textColor)
-
     }
 
     fun setOnDateSelected(onDateSelected: OnDateSelected?) {
@@ -204,7 +216,7 @@ class CalenderAdapter(
             val clickedModel = arrayList[pos]
             if (clickedModel.date == null) return
             if (clickedModel.shapeState == CalenderModel.shapeFlagDisabled) return
-            if (clickedModel.shapeState == CalenderModel.shapeFlagBooked) {
+            if (clickedModel.shapeState == CalenderModel.shapeFlagGathernStart) {
                 onDateSelected?.onBookedDatesSelected()
                 return
             }
