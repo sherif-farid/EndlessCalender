@@ -30,7 +30,12 @@ class CalenderAdapter(
     private val showWeekDays: Boolean,
     private val busyDrawableRefId: Int,
     private val bookedDrawableRefId: Int,
-    private val singleDrawableRefId: Int
+    private val singleDrawableRefId: Int,
+    private val endDrawableRefId : Int=R.drawable.end_shape,
+    private val rangeDrawableRefId: Int=R.drawable.range_shape,
+    private val startDrawableRefId:Int = R.drawable.start_shape ,
+    private val startEndDrawableRefId:Int = R.drawable.start_end,
+    private val todayDrawableRefId:Int = R.drawable.today
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -117,7 +122,11 @@ class CalenderAdapter(
         holder.binding.fri.text = array[5]
         holder.binding.sat.text = array[6]
     }
-
+    private fun setEndMargin(v:View ,margin:Int){
+        val mlp = v.layoutParams as ViewGroup.MarginLayoutParams
+        mlp.marginEnd = margin
+        v.layoutParams = mlp
+    }
     private fun initItemDays(holder: DaysViewHolder, model: CalenderModel?) {
         var day = 0
         if (model?.date != null) {
@@ -131,11 +140,36 @@ class CalenderAdapter(
                 else -> day.toString()
             }
         var dayTextDrawable: Drawable? = null
-        var frameDrawable: Drawable? = null
+        var bcViewDrawable: Drawable? = null
         var textColor = ResourcesCompat.getColor(context.resources, R.color.textBlackColor, null)
         holder.binding.disableLine.visibility = View.GONE
         holder.binding.dayFrame.alpha = 1f
         holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,18f)
+        setEndMargin(holder.binding.dayFrame , -42)
+        when(model?.rangeState){
+            CalenderModel.rangFlagStartEnd ->{
+                bcViewDrawable =  ResourcesCompat.getDrawable(
+                    context.resources, startEndDrawableRefId, null
+                )
+            }
+            CalenderModel.rangeFlagStart ->{
+                setEndMargin(holder.binding.dayFrame , 0)
+                bcViewDrawable =  ResourcesCompat.getDrawable(
+                    context.resources, startDrawableRefId, null
+                )
+            }
+            CalenderModel.rangeFlagEnd ->{
+                bcViewDrawable =  ResourcesCompat.getDrawable(
+                    context.resources, endDrawableRefId, null
+                )
+            }
+            CalenderModel.rangeFlagRange ->{
+                setEndMargin(holder.binding.dayFrame , 0)
+                bcViewDrawable =  ResourcesCompat.getDrawable(
+                    context.resources, rangeDrawableRefId, null
+                )
+            }
+        }
         when (model?.shapeState) {
             CalenderModel.shapeFlagDisabled -> {
                 holder.binding.dayFrame.alpha = 0.2f
@@ -150,7 +184,7 @@ class CalenderAdapter(
                     holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,12f)
                 }
             }
-            CalenderModel.shapeFlagGathernStart -> {
+            CalenderModel.shapeFlagBooked -> {
                 dayTextDrawable = ResourcesCompat.getDrawable(
                     context.resources, bookedDrawableRefId, null
                 )
@@ -159,10 +193,16 @@ class CalenderAdapter(
                     R.color.mywhite, null
                 )
                 holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,12f)
-//                holder.binding.disableLine.visibility = View.VISIBLE
+                //                holder.binding.disableLine.visibility = View.VISIBLE
             }
             CalenderModel.shapeFlagNone -> {
-                dayTextDrawable = null
+                dayTextDrawable = if (isToday(model.date)) {
+                    ResourcesCompat.getDrawable(
+                        context.resources, todayDrawableRefId, null
+                    )
+                }else {
+                    null
+                }
             }
             CalenderModel.shapeFlagSingleSelection -> {
                 textColor = ResourcesCompat.getColor(
@@ -172,9 +212,9 @@ class CalenderAdapter(
                 dayTextDrawable = ResourcesCompat.getDrawable(
                     context.resources, singleDrawableRefId, null
                 )
-                frameDrawable = null
             }
         }
+
         if (model?.isBusy == true && model.shapeState != CalenderModel.shapeFlagSingleSelection){
             dayTextDrawable= ResourcesCompat.getDrawable(
                 context.resources, busyDrawableRefId, null
@@ -182,7 +222,7 @@ class CalenderAdapter(
             holder.binding.disableLine.visibility = View.VISIBLE
         }
         holder.binding.day.background = dayTextDrawable
-        holder.binding.dayFrame.background = frameDrawable
+        holder.binding.bcView.background = bcViewDrawable
         holder.binding.day.setTextColor(textColor)
     }
 
@@ -214,9 +254,11 @@ class CalenderAdapter(
         override fun onClick(v: View) {
             val pos = layoutPosition
             val clickedModel = arrayList[pos]
+            if (clickedModel.rangeState == CalenderModel.rangeFlagRange ||
+                clickedModel.rangeState == CalenderModel.rangeFlagEnd)return
             if (clickedModel.date == null) return
             if (clickedModel.shapeState == CalenderModel.shapeFlagDisabled) return
-            if (clickedModel.shapeState == CalenderModel.shapeFlagGathernStart) {
+            if (clickedModel.shapeState == CalenderModel.shapeFlagBooked) {
                 onDateSelected?.onBookedDatesSelected()
                 return
             }
@@ -257,7 +299,11 @@ class CalenderAdapter(
         }
         notifyDataSetChanged()
     }
-
+    private fun isToday(date: Date?):Boolean {
+        val dateSt = parseDate(date)
+        val today = parseDate(Date())
+        return dateSt == today
+    }
     private fun parseDate(date: Date?): String? {
         if (date == null) return null
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)

@@ -10,6 +10,7 @@
     <color name="grayText">#848484</color>
     <color name="busyColor">#26848484</color>
     <color name="bookedColor">#80848484</color>
+    <color name="primary_trans_20">#345A409B</color>
 
 
 </resources>

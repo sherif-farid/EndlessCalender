@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="rtl"
     tools:context=".TestActivity">
 
 
@@ -13,11 +14,13 @@
         android:layout_height="0dp"
         android:layout_margin="16dp"
         app:ShowWeekDays="true"
+        app:endDrawable="@drawable/booked_days_shape_end"
         app:busyDrawable="@drawable/busy_days_shape"
         app:bookedDrawable="@drawable/booked_days_shape"
         app:singleDrawable="@drawable/single_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:prevMonths="3"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

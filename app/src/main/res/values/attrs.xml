@@ -5,6 +5,9 @@
         <attr name="busyDrawable" format="reference"/>
         <attr name="bookedDrawable" format="reference"/>
         <attr name="singleDrawable" format="reference"/>
+        <attr name="endDrawable" format="reference"/>
+        <attr name="rangeDrawable" format="reference"/>
+        <attr name="prevMonths" format="integer"/>
     </declare-styleable>
 
 </resources>

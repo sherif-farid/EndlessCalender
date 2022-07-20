@@ -27,7 +27,10 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
     private var showWeekDays = true
     private var busyDrawableRefId = 0
     private var bookedDrawableRefId = 0
+    private var endDrawableRefId = 0
+    private var rangeDrawableRefId = 0
     private var singleDrawableRefId = 0
+    private var prevMonths = 0
     private var onDateSelected: OnDateSelected? = null
     private val TAG = "CalendarRecyclerView"
     private var calenderAdapter: CalenderAdapter? = null
@@ -60,10 +63,21 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
             R.styleable.CalendarRecyclerView_bookedDrawable,
             R.drawable.booked_shape
         )
+        //
+        endDrawableRefId = typedArray.getResourceId(
+            R.styleable.CalendarRecyclerView_endDrawable,
+            R.drawable.booked_shape
+        )
+        rangeDrawableRefId = typedArray.getResourceId(
+            R.styleable.CalendarRecyclerView_rangeDrawable,
+            R.drawable.booked_shape
+        )
+        //
         singleDrawableRefId = typedArray.getResourceId(
             R.styleable.CalendarRecyclerView_singleDrawable,
             R.drawable.single_selection
         )
+        prevMonths = typedArray.getInt(R.styleable.CalendarRecyclerView_prevMonths , 0)
         typedArray.recycle()
     }
 
@@ -79,8 +93,13 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
     }
 
     private fun initList(months: Int = 0) {
+        var isRange = false
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.DAY_OF_MONTH, 1)
+        if (prevMonths >0){
+            val prevDate = prevMonths*-1
+            calendar.add(Calendar.MONTH,prevDate)
+        }
         val start = calendar.time
         calenderList.clear()
         //
@@ -116,11 +135,27 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
                 ) {
                     model.shapeState = CalenderModel.shapeFlagDisabled
                 }
-                val index = bookedDates?.containGathernStart(parseDateToString(model.date))?:-1
-                if (index > -1) {
-                    model.shapeState = CalenderModel.shapeFlagGathernStart
-                    model.clientName = bookedDates?.get(index)?.clientName?:""
+                val indexStart = bookedDates?.containGathernStart(parseDateToString(model.date))?:-1
+                val isStart = indexStart > -1
+                val indexEnd = bookedDates?.containGathernEnd(parseDateToString(model.date))?:-1
+                val isEnd = indexEnd > -1
+                if (isStart) {
+                    isRange = true
+                    model.shapeState = CalenderModel.shapeFlagBooked
+                    model.clientName = bookedDates?.get(indexStart)?.clientName?:""
+                    model.rangeState = CalenderModel.rangeFlagStart
                 }
+                if (isStart && isEnd){
+                    isRange = false
+                    model.rangeState = CalenderModel.rangFlagStartEnd
+                }else if (isEnd){
+                    isRange = false
+                    model.rangeState = CalenderModel.rangeFlagEnd
+                }
+                if (isRange&& !isStart){
+                    model.rangeState = CalenderModel.rangeFlagRange
+                }
+                Log.v(TAG , "model $model")
                 if (busyList?.contains(parseDateToString(model.date)) == true) {
                     model.isBusy = true
                 }
@@ -132,6 +167,7 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
     }
 
     fun appendToList(months: Int = 0) {
+        var isRange = false
         var monthsAdded = 0
         val startPosition = calenderList.size - 1
         val startDate = calenderList[startPosition].date
@@ -166,12 +202,27 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
                 ) {
                     model.shapeState = CalenderModel.shapeFlagDisabled
                 }
-                val index = bookedDates?.containGathernStart(parseDateToString(model.date))?:-1
-                if (index > -1) {
-                    model.shapeState = CalenderModel.shapeFlagGathernStart
-                    model.clientName = bookedDates?.get(index)?.clientName?:""
+                val indexStart = bookedDates?.containGathernStart(parseDateToString(model.date))?:-1
+                val isStart = indexStart > -1
+                val indexEnd = bookedDates?.containGathernEnd(parseDateToString(model.date))?:-1
+                val isEnd = indexEnd > -1
+                if (isStart) {
+                    isRange = true
+                    model.shapeState = CalenderModel.shapeFlagBooked
+                    model.clientName = bookedDates?.get(indexStart)?.clientName?:""
+                    model.rangeState = CalenderModel.rangeFlagStart
                 }
-                if (busyList?.contains(parseDateToString(model.date)) == true) {
+                if (isStart && isEnd){
+                    isRange = false
+                    model.rangeState = CalenderModel.rangFlagStartEnd
+                }else if (isEnd){
+                    isRange = false
+                    model.rangeState = CalenderModel.rangeFlagEnd
+                }
+                if (isRange && !isStart){
+                    model.rangeState = CalenderModel.rangeFlagRange
+                }
+                  if (busyList?.contains(parseDateToString(model.date)) == true) {
                     model.isBusy = true
                 }
                 calenderList.add(model)
@@ -190,7 +241,7 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
             showWeekDays,
             busyDrawableRefId,
             bookedDrawableRefId,
-            singleDrawableRefId,
+            singleDrawableRefId
         )
         calenderAdapter?.setOnDateSelected(this)
         val layoutManager = GridLayoutManager(

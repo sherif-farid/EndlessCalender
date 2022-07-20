@@ -6,27 +6,33 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:layout_marginTop="8dp"
+    android:layoutDirection="rtl"
+    android:layout_marginEnd="-16dp"
     >
+    <View
+        android:id="@+id/bcView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        />
 <TextView android:id="@+id/day"
     android:layout_width="40dp"
     android:layout_height="40dp"
     android:textAlignment="gravity"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
     android:gravity="center"
     android:maxLines="1"
     android:textColor="#000000"
     android:textSize="17sp"
     android:ellipsize="end"
     android:fontFamily="@font/tajawal_medium"
-    android:layout_gravity="center_horizontal"
+    android:layout_gravity="start"
     />
     <View
         android:id="@+id/disableLine"
         android:layout_width="20dp"
         android:layout_height="1dp"
-        android:background="@color/grayText"
+        android:layout_marginStart="10dp"
         android:visibility="gone"
-        android:layout_gravity="center"
+        android:background="@color/grayText"
+        android:layout_gravity="start|center_vertical"
         />
 </FrameLayout>

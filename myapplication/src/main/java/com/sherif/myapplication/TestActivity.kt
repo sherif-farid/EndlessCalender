@@ -24,28 +24,56 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         bookedList.add(
             GathernReservationModel(
                 checkInDate = "2022-07-01",
-                checkoutDate = "",
+                checkoutDate = "2022-07-01",
                 clientName = "تامر"
             )
         )
         bookedList.add(
             GathernReservationModel(
                 checkInDate = "2022-07-05",
-                checkoutDate = "",
+                checkoutDate = "2022-07-05",
                 clientName = "احمد"
             )
         )
         bookedList.add(
             GathernReservationModel(
-                checkInDate = "2022-07-08",
-                checkoutDate = "",
+                checkInDate = "2022-07-07",
+                checkoutDate = "2022-07-07",
                 clientName = "محمد"
+            )
+        )
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-07-08",
+                checkoutDate = "2022-07-08",
+                clientName = "محمد"
+            )
+        )
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-07-10",
+                checkoutDate = "2022-07-12",
+                clientName = "محمد"
+            )
+        )
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-08-02",
+                checkoutDate = "2022-08-09",
+                clientName = "هاني"
+            )
+        )
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-08-12",
+                checkoutDate = "2022-08-13",
+                clientName = "عبدالله احمد محمد"
             )
         )
         binding?.calenderRv?.post {
             binding?.calenderRv?.initialize(
                 bookedList = bookedList,
-                busyList = arrayListOf("2022-07-30", "2022-07-26", "2022-07-20")
+                busyList = arrayListOf("2022-07-30", "2022-07-26", "2022-07-21")
             )
         }
     }
