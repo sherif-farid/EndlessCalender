@@ -238,10 +238,7 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
         calenderAdapter = CalenderAdapter(
             context,
             calenderList,
-            showWeekDays,
-            busyDrawableRefId,
-            bookedDrawableRefId,
-            singleDrawableRefId
+            showWeekDays
         )
         calenderAdapter?.setOnDateSelected(this)
         val layoutManager = GridLayoutManager(

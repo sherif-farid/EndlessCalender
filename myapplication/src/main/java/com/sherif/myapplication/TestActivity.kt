@@ -2,6 +2,7 @@ package com.sherif.myapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.sherif.myapplication.databinding.ActivityMainBinding
 import com.sherif.mycalender.GathernReservationModel
 import com.sherif.mycalender.OnDateSelected
@@ -81,12 +82,12 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
     override fun onSelected(availableList: ArrayList<String>?, busyList: ArrayList<String>?) {
         this.availableList = availableList
         this.busyList = busyList
-//        Log.v("MainActivityTag", "availableList : $availableList")
-//        Log.v("MainActivityTag", "busyList : $busyList")
+        Log.v("MainActivityTag", "availableList : $availableList")
+        Log.v("MainActivityTag", "busyList : $busyList")
     }
 
     override fun onBookedDatesSelected() {
-//        Log.v("MainActivityTag", "onBookedDatesSelected")
+        Log.v("MainActivityTag", "onBookedDatesSelected")
     }
 
     override fun onBackPressed() {

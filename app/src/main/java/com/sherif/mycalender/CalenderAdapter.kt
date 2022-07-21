@@ -28,9 +28,9 @@ class CalenderAdapter(
     private val context: Context,
     private val arrayList: ArrayList<CalenderModel>,
     private val showWeekDays: Boolean,
-    private val busyDrawableRefId: Int,
-    private val bookedDrawableRefId: Int,
-    private val singleDrawableRefId: Int,
+    private val busyDrawableRefId: Int = R.drawable.busy_shape,
+    private val bookedDrawableRefId: Int = R.drawable.booked_shape,
+    private val singleDrawableRefId: Int = R.drawable.single_selection,
     private val endDrawableRefId : Int=R.drawable.end_shape,
     private val rangeDrawableRefId: Int=R.drawable.range_shape,
     private val startDrawableRefId:Int = R.drawable.start_shape ,
@@ -255,10 +255,13 @@ class CalenderAdapter(
             val pos = layoutPosition
             val clickedModel = arrayList[pos]
             if (clickedModel.rangeState == CalenderModel.rangeFlagRange ||
-                clickedModel.rangeState == CalenderModel.rangeFlagEnd)return
+                clickedModel.rangeState == CalenderModel.rangeFlagEnd) {
+                onDateSelected?.onBookedDatesSelected()
+                return
+            }
             if (clickedModel.date == null) return
             if (clickedModel.shapeState == CalenderModel.shapeFlagDisabled) return
-            if (clickedModel.shapeState == CalenderModel.shapeFlagBooked) {
+            if (clickedModel.shapeState == CalenderModel.shapeFlagBooked ) {
                 onDateSelected?.onBookedDatesSelected()
                 return
             }
