@@ -7,7 +7,16 @@
     android:layoutDirection="rtl"
     tools:context=".TestActivity">
 
-
+<com.sherif.mycalender.months.MonthsRv
+    android:id="@+id/monthsRv"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginStart="100dp"
+    android:layout_marginEnd="100dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    />
     <com.sherif.mycalender.CalendarRecyclerView
         android:id="@+id/calenderRv"
         android:layout_width="match_parent"
@@ -17,6 +26,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/monthsRv"
         app:prevMonths="3"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

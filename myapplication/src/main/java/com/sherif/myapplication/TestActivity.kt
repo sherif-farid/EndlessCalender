@@ -71,6 +71,9 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
                 clientName = "عبدالله احمد محمد"
             )
         )
+        binding?.monthsRv?.post {
+            binding?.monthsRv?.initialize(bookedList = bookedList)
+        }
         binding?.calenderRv?.post {
             binding?.calenderRv?.initialize(
                 bookedList = bookedList,
