@@ -7,6 +7,11 @@
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/busy_shape.xml" value="0.1671875" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/end_range.xml" value="0.1671875" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/end_shape.xml" value="0.16666666666666666" />
+        <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/month_booked_shape.xml" value="0.108" />
+        <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/month_end_shape.xml" value="0.108" />
+        <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/month_range_shape.xml" value="0.108" />
+        <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/month_start_end.xml" value="0.108" />
+        <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/month_start_shape.xml" value="0.108" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/range.xml" value="0.1796875" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/range_shape.xml" value="0.1796875" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/single_selection.xml" value="0.1671875" />
@@ -16,7 +21,7 @@
         <entry key="..\:/Android/MyCalender/app/src/main/res/drawable/today.xml" value="0.108" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/layout/day_item.xml" value="0.14666666666666667" />
         <entry key="..\:/Android/MyCalender/app/src/main/res/layout/month_title_item.xml" value="0.15104166666666666" />
-        <entry key="..\:/Android/MyCalender/app/src/main/res/layout/month_view.xml" value="0.1625" />
+        <entry key="..\:/Android/MyCalender/app/src/main/res/layout/month_view.xml" value="0.4466666666666667" />
         <entry key="..\:/Android/MyCalender/myapplication/src/main/res/drawable/booked_days_shape.xml" value="0.1671875" />
         <entry key="..\:/Android/MyCalender/myapplication/src/main/res/drawable/booked_days_shape_end.xml" value="0.1796875" />
         <entry key="..\:/Android/MyCalender/myapplication/src/main/res/drawable/busy_days_shape.xml" value="0.1671875" />

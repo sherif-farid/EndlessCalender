@@ -7,5 +7,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "MyCalender"
-include ':app'
+include ':calenderLib'
 include ':myapplication'

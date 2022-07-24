@@ -2,7 +2,6 @@ package com.sherif.mycalender.months
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sherif.mycalender.*
@@ -20,7 +19,7 @@ import kotlin.collections.ArrayList
 
 class MonthsRv : RecyclerView {
     private var bookedDates: ArrayList<GathernReservationModel?>?= null
-    private val calenderList: ArrayList<CalenderModel> = ArrayList()
+    private val calenderList: ArrayList<MonthModel> = ArrayList()
     private var calenderAdapter: MonthsAdapter? = null
     constructor(context: Context) : super(context) {
 
@@ -60,8 +59,8 @@ class MonthsRv : RecyclerView {
         var monthsAdded = 0
         while (monthsAdded < months) {
             val date = calStartDate.time
-            calenderList.add(CalenderModel(date, CalenderModel.titleViewType))// add month title
-            calenderList.add(CalenderModel(date, CalenderModel.weekDaysViewType)) // add week days
+            calenderList.add(MonthModel(date))// add month title
+            calenderList.add(MonthModel(date)) // add week days
             val currentMonth = calStartDate[Calendar.MONTH]
             //set blank days in start of month
             val blankDays = calStartDate[Calendar.DAY_OF_WEEK] - 1
@@ -69,7 +68,7 @@ class MonthsRv : RecyclerView {
             if (blankDays != 7) {
                 for (i in 0 until blankDays) {
 //                    Log.v(TAG , "i $i")
-                    calenderList.add(CalenderModel(null, CalenderModel.dayTextViewType))
+                    calenderList.add(MonthModel(null))
                 }
             }
             // define day milliseconds because current day time may be not started
@@ -77,7 +76,7 @@ class MonthsRv : RecyclerView {
             val day = 86400000
 //            var isInRange = false
             while (calStartDate[Calendar.MONTH] == currentMonth) {
-                val model = CalenderModel(calStartDate.time, CalenderModel.dayTextViewType)
+                val model = MonthModel(calStartDate.time)
                 val t1 = model.date?.time ?: 0
                 val t2 = Date().time
                 val diff = t2 - t1
@@ -93,7 +92,6 @@ class MonthsRv : RecyclerView {
                 if (isStart) {
                     isRange = true
                     model.shapeState = CalenderModel.shapeFlagBooked
-                    model.clientName = bookedDates?.get(indexStart)?.clientName?:""
                     model.rangeState = CalenderModel.rangeFlagStart
                 }
                 if (isStart && isEnd){
