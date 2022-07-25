@@ -7,12 +7,12 @@
     android:layoutDirection="rtl"
     tools:context=".TestActivity">
 
-<com.sherif.mycalender.months.MonthsRv
+<com.sherif.mycalender.months.MonthView
     android:id="@+id/monthsRv"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:layout_width="wrap_content"
+    android:layout_width="150dp"
     android:layout_height="wrap_content"
     />
     <com.sherif.mycalender.CalendarRecyclerView

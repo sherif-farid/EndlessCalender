@@ -70,54 +70,47 @@ class MonthsAdapter(
             val calendar = Calendar.getInstance()
             calendar.time = model.date!!
         }
-        var frameDrawable: Drawable? = null
-        var bcViewDrawable: Drawable? = null
+        var baseViewBc: Drawable? = null
+        var rootFrameBc: Drawable? = null
         when(model?.rangeState){
             MonthModel.rangFlagStartEnd ->{
-                bcViewDrawable =  ResourcesCompat.getDrawable(
+                rootFrameBc =  /*ResourcesCompat.getDrawable(
                     context.resources, R.drawable.month_start_end, null
-                )
+                )*/null
             }
             MonthModel.rangeFlagStart ->{
-                bcViewDrawable =  ResourcesCompat.getDrawable(
+                rootFrameBc =  ResourcesCompat.getDrawable(
                     context.resources, R.drawable.month_start_shape, null
                 )
             }
             MonthModel.rangeFlagEnd ->{
-                bcViewDrawable =  ResourcesCompat.getDrawable(
+                baseViewBc = ResourcesCompat.getDrawable(
                     context.resources, R.drawable.month_end_shape, null
                 )
             }
             MonthModel.rangeFlagRange ->{
-                bcViewDrawable =  ResourcesCompat.getDrawable(
+                rootFrameBc =  ResourcesCompat.getDrawable(
                     context.resources, R.drawable.month_range_shape, null
                 )
             }
         }
         when (model?.shapeState) {
             MonthModel.shapeFlagBooked -> {
-                frameDrawable = ResourcesCompat.getDrawable(
+                baseViewBc = ResourcesCompat.getDrawable(
                     context.resources, R.drawable.month_booked_shape, null
                 )
             }
             MonthModel.shapeFlagNone -> {
-                frameDrawable = if (isToday(model.date)) {
-                    ResourcesCompat.getDrawable(
+                 if (isToday(model.date)) {
+                     baseViewBc =   ResourcesCompat.getDrawable(
                         context.resources, R.drawable.today, null
                     )
-                }else {
-                    null
                 }
-            }
-            MonthModel.shapeFlagSingleSelection -> {
-                frameDrawable = ResourcesCompat.getDrawable(
-                    context.resources, R.drawable.single_selection, null
-                )
             }
         }
 
-        holder.binding.baseView.background = frameDrawable
-        holder.binding.rootFrame.background = bcViewDrawable
+        holder.binding.baseView.background = baseViewBc
+        holder.binding.rootFrame.background = rootFrameBc
     }
 
     inner class DaysViewHolder(val binding: MonthViewBinding) :

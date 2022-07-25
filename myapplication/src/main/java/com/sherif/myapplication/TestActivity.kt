@@ -59,8 +59,8 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         )
         bookedList.add(
             GathernReservationModel(
-                checkInDate = "2022-08-02",
-                checkoutDate = "2022-08-09",
+                checkInDate = "2022-07-29",
+                checkoutDate = "2022-07-29",
                 clientName = "هاني"
             )
         )

@@ -17,16 +17,17 @@ import kotlin.collections.ArrayList
  * phone: 00201007538470
  */
 
-class MonthsRv : RecyclerView {
+class MonthView : RecyclerView {
+    private val tag = "MonthsRvTag"
     private var bookedDates: ArrayList<GathernReservationModel?>?= null
     private val calenderList: ArrayList<MonthModel> = ArrayList()
     private var calenderAdapter: MonthsAdapter? = null
     constructor(context: Context) : super(context) {
-
+        initialize(null)
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-
+        initialize(null)
     }
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
@@ -34,7 +35,7 @@ class MonthsRv : RecyclerView {
         attrs,
         defStyle
     ) {
-
+      initialize(null)
     }
 
 
@@ -80,29 +81,30 @@ class MonthsRv : RecyclerView {
                 val t1 = model.date?.time ?: 0
                 val t2 = Date().time
                 val diff = t2 - t1
-                if (diff >= day //to disable yesterday
-                // || model.date?.after(end) == true // to disable after end date
-                ) {
-                    model.shapeState = CalenderModel.shapeFlagDisabled
-                }
+//                if (diff >= day //to disable yesterday
+//                // || model.date?.after(end) == true // to disable after end date
+//                ) {
+//                    model.shapeState = MonthModel.shapeFlagDisabled
+//                }
                 val indexStart = bookedDates?.containGathernStart(parseDateToString(model.date))?:-1
                 val isStart = indexStart > -1
                 val indexEnd = bookedDates?.containGathernEnd(parseDateToString(model.date))?:-1
                 val isEnd = indexEnd > -1
+                logs(tag , "isStart $isStart isEnd $isEnd date ${model.date}")
                 if (isStart) {
                     isRange = true
-                    model.shapeState = CalenderModel.shapeFlagBooked
-                    model.rangeState = CalenderModel.rangeFlagStart
+                    model.shapeState = MonthModel.shapeFlagBooked
+                    model.rangeState = MonthModel.rangeFlagStart
                 }
                 if (isStart && isEnd){
                     isRange = false
-                    model.rangeState = CalenderModel.rangFlagStartEnd
+                    model.rangeState = MonthModel.rangFlagStartEnd
                 }else if (isEnd){
                     isRange = false
-                    model.rangeState = CalenderModel.rangeFlagEnd
+                    model.rangeState = MonthModel.rangeFlagEnd
                 }
                 if (isRange&& !isStart){
-                    model.rangeState = CalenderModel.rangeFlagRange
+                    model.rangeState = MonthModel.rangeFlagRange
                 }
                 calenderList.add(model)
                 calStartDate.add(Calendar.DAY_OF_MONTH, 1)

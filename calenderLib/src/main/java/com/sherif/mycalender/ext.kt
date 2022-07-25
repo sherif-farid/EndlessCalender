@@ -1,6 +1,8 @@
 package com.sherif.mycalender
 
- fun ArrayList<GathernReservationModel?>?.containGathernStart(date: String?): Int {
+import android.util.Log
+
+fun ArrayList<GathernReservationModel?>?.containGathernStart(date: String?): Int {
     val mList = this
     if (mList != null) {
         for (item in mList) {
@@ -21,4 +23,9 @@ fun ArrayList<GathernReservationModel?>?.containGathernEnd(date: String?): Int {
         }
     }
     return -1
+}
+fun logs(tag:String , value:String){
+    if (com.sherif.mycalender.BuildConfig.DEBUG){
+        Log.v(tag , value)
+    }
 }
