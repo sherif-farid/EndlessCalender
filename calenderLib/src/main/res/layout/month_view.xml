@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
+    android:orientation="horizontal"
     android:id="@+id/rootFrame"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="14dp"
     android:layout_width="match_parent"
     android:layout_marginTop="8dp"
     android:layoutDirection="rtl"
-    >
-    <View
+    android:baselineAligned="false">
+    <FrameLayout
         android:id="@+id/baseView"
-        android:layout_height="14dp"
-        android:layout_width="14dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:layout_gravity="start"
-        />
-    <View
-        android:id="@+id/bcView"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
-        android:background="@drawable/start_end"
-        android:layout_gravity="start|center_vertical"
-        android:layout_marginStart="3dp"
-        />
-</FrameLayout>
+        >
+        <View
+            android:id="@+id/bcView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:background="@drawable/start_end"
+            />
+    </FrameLayout>
+</LinearLayout>

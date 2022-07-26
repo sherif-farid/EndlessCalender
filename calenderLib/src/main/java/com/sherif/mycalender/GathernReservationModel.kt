@@ -1,6 +1,6 @@
 package com.sherif.mycalender
 data class GathernReservationModel(
     val checkInDate: String?,
-    val checkoutDate: String?,
+    var checkoutDate: String?,
     val clientName: String?
 )

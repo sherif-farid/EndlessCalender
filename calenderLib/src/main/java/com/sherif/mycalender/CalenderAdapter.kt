@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sherif.mycalender.databinding.DayItemBinding
 import com.sherif.mycalender.databinding.MonthTitleItemBinding
@@ -82,7 +83,7 @@ class CalenderAdapter(
                 initItemWeekDays(holder, model)
             }
             is DaysViewHolder -> {
-                initItemDays(holder, model)
+                initItemDays(holder, model )
             }
         }
     }
@@ -122,12 +123,18 @@ class CalenderAdapter(
         holder.binding.fri.text = array[5]
         holder.binding.sat.text = array[6]
     }
-    private fun setEndMargin(v:View ,margin:Int){
-        val mlp = v.layoutParams as ViewGroup.MarginLayoutParams
-        mlp.marginEnd = margin
-        v.layoutParams = mlp
+    private fun setEndMargin(v:View ,margin:Int , rootView:View){
+        rootView.post {
+            val glp = rootView.layoutParams as GridLayoutManager.LayoutParams
+            val index = glp.spanIndex
+            var mMargin = margin
+            if (index %6 == 0)mMargin = 0// last item in span row is 6
+            val mlp = v.layoutParams as ViewGroup.MarginLayoutParams
+            mlp.marginEnd = mMargin
+            v.layoutParams = mlp
+        }
     }
-    private fun initItemDays(holder: DaysViewHolder, model: CalenderModel?) {
+    private fun initItemDays(holder: DaysViewHolder, model: CalenderModel? ) {
         var day = 0
         if (model?.date != null) {
             val calendar = Calendar.getInstance()
@@ -145,7 +152,7 @@ class CalenderAdapter(
         holder.binding.disableLine.visibility = View.GONE
         holder.binding.dayFrame.alpha = 1f
         holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,18f)
-        setEndMargin(holder.binding.dayFrame , -42)
+        setEndMargin(holder.binding.dayFrame , -42 , rootView = holder.binding.root)
         when(model?.rangeState){
             CalenderModel.rangFlagStartEnd ->{
                 bcViewDrawable =  ResourcesCompat.getDrawable(
@@ -153,7 +160,7 @@ class CalenderAdapter(
                 )
             }
             CalenderModel.rangeFlagStart ->{
-                setEndMargin(holder.binding.dayFrame , 0)
+                setEndMargin(holder.binding.dayFrame , 0 , rootView = holder.binding.root)
                 bcViewDrawable =  ResourcesCompat.getDrawable(
                     context.resources, startDrawableRefId, null
                 )
@@ -164,7 +171,7 @@ class CalenderAdapter(
                 )
             }
             CalenderModel.rangeFlagRange ->{
-                setEndMargin(holder.binding.dayFrame , 0)
+                setEndMargin(holder.binding.dayFrame , 0 , rootView = holder.binding.root)
                 bcViewDrawable =  ResourcesCompat.getDrawable(
                     context.resources, rangeDrawableRefId, null
                 )
@@ -253,7 +260,11 @@ class CalenderAdapter(
         RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         override fun onClick(v: View) {
             val pos = layoutPosition
+            val glp = binding.root.layoutParams as GridLayoutManager.LayoutParams
+            val index = glp.spanIndex
             val clickedModel = arrayList[pos]
+            logs(TAG , "indexClicked $index date ${clickedModel.date}")
+
             if (clickedModel.rangeState == CalenderModel.rangeFlagRange ||
                 clickedModel.rangeState == CalenderModel.rangeFlagEnd) {
                 onDateSelected?.onBookedDatesSelected()

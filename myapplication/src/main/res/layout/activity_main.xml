@@ -5,16 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:onClick="showToast"
     tools:context=".TestActivity">
-
-<com.sherif.mycalender.months.MonthView
-    android:id="@+id/monthsRv"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_width="150dp"
+<LinearLayout
+    android:id="@+id/monthLayout"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    />
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_margin="1dp"
+    android:orientation="horizontal">
+    <com.sherif.mycalender.months.MonthView
+        android:id="@+id/monthsRv1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_margin="6dp"
+        android:layout_height="wrap_content"
+        />
+    <com.sherif.mycalender.months.MonthView
+        android:id="@+id/monthsRv2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_margin="6dp"
+        android:layout_height="wrap_content"
+        />
+
+
+</LinearLayout>
+
     <com.sherif.mycalender.CalendarRecyclerView
         android:id="@+id/calenderRv"
         android:layout_width="match_parent"
@@ -24,6 +47,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/monthsRv"
+        app:layout_constraintTop_toBottomOf="@id/monthLayout"
         app:prevMonths="3"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

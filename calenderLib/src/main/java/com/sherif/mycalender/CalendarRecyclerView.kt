@@ -21,7 +21,7 @@ import kotlin.collections.ArrayList
 
 class CalendarRecyclerView : RecyclerView, OnDateSelected {
     private var isLoading: Boolean = false
-    private var bookedDates: ArrayList<GathernReservationModel?>? = null
+    private var bookedDates: ArrayList<GathernReservationModel?>? = ArrayList()
     private var busyList: ArrayList<String?>? = null
     private val calenderList: ArrayList<CalenderModel> = ArrayList()
     private var showWeekDays = true
@@ -30,7 +30,14 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
     private var endDrawableRefId = 0
     private var rangeDrawableRefId = 0
     private var singleDrawableRefId = 0
-    private var prevMonths = 0
+    private var mPrevMonth = 0
+    var prevMonths = 0
+    set(value) {
+        field = value
+        mPrevMonth = value
+        initialize(bookedList = bookedDates ,
+        busyList = busyList)
+    }
     private var onDateSelected: OnDateSelected? = null
     private val TAG = "CalendarRecyclerView"
     private var calenderAdapter: CalenderAdapter? = null
@@ -77,7 +84,7 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
             R.styleable.CalendarRecyclerView_singleDrawable,
             R.drawable.single_selection
         )
-        prevMonths = typedArray.getInt(R.styleable.CalendarRecyclerView_prevMonths , 0)
+        mPrevMonth = typedArray.getInt(R.styleable.CalendarRecyclerView_prevMonths , 0)
         typedArray.recycle()
     }
 
@@ -85,7 +92,11 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
         bookedList: ArrayList<GathernReservationModel?>?,
         busyList: ArrayList<String?>?
     ) {
-        this.bookedDates = bookedList
+        bookedList?.forEach {
+            this.bookedDates?.add(GathernReservationModel(checkInDate = it?.checkInDate ,
+                checkoutDate = getYesterday(it?.checkoutDate?:"") ,
+                clientName = it?.clientName))
+        }
         this.busyList = busyList
         Log.v(TAG, "initialize RV")
         initList(12)
@@ -96,8 +107,8 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
         var isRange = false
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.DAY_OF_MONTH, 1)
-        if (prevMonths >0){
-            val prevDate = prevMonths*-1
+        if (mPrevMonth >0){
+            val prevDate = mPrevMonth*-1
             calendar.add(Calendar.MONTH,prevDate)
         }
         val start = calendar.time
@@ -137,7 +148,7 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
                 }
                 val indexStart = bookedDates?.containGathernStart(parseDateToString(model.date))?:-1
                 val isStart = indexStart > -1
-                val indexEnd = bookedDates?.containGathernEnd(parseDateToString(model.date))?:-1
+                val indexEnd = bookedDates?.containGathernEnd( parseDateToString(model.date))?:-1
                 val isEnd = indexEnd > -1
                 if (isStart) {
                     isRange = true
@@ -204,7 +215,7 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
                 }
                 val indexStart = bookedDates?.containGathernStart(parseDateToString(model.date))?:-1
                 val isStart = indexStart > -1
-                val indexEnd = bookedDates?.containGathernEnd(parseDateToString(model.date))?:-1
+                val indexEnd = bookedDates?.containGathernEnd( parseDateToString(model.date))?:-1
                 val isEnd = indexEnd > -1
                 if (isStart) {
                     isRange = true
@@ -284,16 +295,7 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
         })
     }
 
-    private fun parseDateToString(date: Date?): String? {
-        if (date == null) return null
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        return try {
-            sdf.format(date)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
+
 
     fun setOnDateSelected(onDateSelected: OnDateSelected?) {
         this.onDateSelected = onDateSelected

@@ -9,6 +9,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sherif.mycalender.R
 import com.sherif.mycalender.databinding.MonthViewBinding
+import com.sherif.mycalender.logs
+import com.sherif.mycalender.parseDateToString
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -27,7 +29,7 @@ class MonthsAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val TAG = "CalenderAdapterTAG"
+    private val TAG = "MonthsAdapterTAG"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -38,16 +40,10 @@ class MonthsAdapter(
             Log.v(TAG , "height $height")
             Log.v(TAG , "width $width")
             val lp = dayBind.root.layoutParams
-//            if (height > width){
-//                lp.apply {
-//                    this.height = width
-//                }
-//            }else if (width > height){
-//                lp.apply {
-//                    this.width = height
-//                }
-//            }
-//            dayBind.root.layoutParams = lp
+            lp.apply {
+                this.height = width
+            }
+            dayBind.root.layoutParams = lp
         }
          return DaysViewHolder(dayBind)
     }
@@ -58,6 +54,7 @@ class MonthsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val model = arrayList[position]
+        logs(TAG , "model $model position $position")
         when (holder) {
             is DaysViewHolder -> {
                 initItemDays(holder, model)
@@ -69,6 +66,11 @@ class MonthsAdapter(
         if (model?.date != null) {
             val calendar = Calendar.getInstance()
             calendar.time = model.date!!
+        }else {
+            holder.binding.baseView.background = null
+            holder.binding.rootFrame.background = null
+            holder.binding.bcView.background = null
+            return
         }
         var baseViewBc: Drawable? = null
         var rootFrameBc: Drawable? = null
@@ -117,18 +119,9 @@ class MonthsAdapter(
         RecyclerView.ViewHolder(binding.root)
 
     private fun isToday(date: Date?):Boolean {
-        val dateSt = parseDate(date)
-        val today = parseDate(Date())
+        val dateSt = parseDateToString(date)
+        val today = parseDateToString(Date())
         return dateSt == today
     }
-    private fun parseDate(date: Date?): String? {
-        if (date == null) return null
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        return try {
-            sdf.format(date)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
+
 }
