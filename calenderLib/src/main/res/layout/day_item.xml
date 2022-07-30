@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/dayFrame"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
+    android:id="@+id/dayFrame"
     android:layout_width="match_parent"
-    android:layout_marginTop="8dp"
-    android:layoutDirection="rtl"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
     android:layout_marginEnd="-16dp"
-    >
+    android:layoutDirection="rtl">
+
     <View
         android:id="@+id/bcView"
         android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:id="@+id/day"
+        android:layout_width="40dp"
         android:layout_height="40dp"
-        />
-<TextView android:id="@+id/day"
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:textAlignment="gravity"
-    android:gravity="center"
-    android:maxLines="1"
-    android:textColor="#000000"
-    android:textSize="17sp"
-    android:ellipsize="end"
-    android:fontFamily="@font/tajawal_medium"
-    android:layout_gravity="start"
-    />
+        android:layout_gravity="start"
+        android:ellipsize="end"
+        android:fontFamily="@font/tajawal_medium"
+        android:gravity="center"
+        android:maxLines="1"
+        android:padding="4dp"
+        android:textAlignment="gravity"
+        android:textColor="#000000"
+        android:textSize="17sp" />
+
     <View
         android:id="@+id/disableLine"
         android:layout_width="20dp"
         android:layout_height="1dp"
-        android:layout_marginStart="10dp"
-        android:visibility="gone"
-        android:background="@color/grayText"
         android:layout_gravity="start|center_vertical"
-        />
+        android:layout_marginStart="10dp"
+        android:background="@color/grayText"
+        android:visibility="gone" />
 </FrameLayout>

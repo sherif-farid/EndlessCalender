@@ -123,15 +123,16 @@ class CalenderAdapter(
         holder.binding.fri.text = array[5]
         holder.binding.sat.text = array[6]
     }
-    private fun setEndMargin(v:View ,margin:Int , rootView:View){
+    private fun setEndMargin(v:View ,margin:Int , rootView:View , date:String?){
         rootView.post {
             val glp = rootView.layoutParams as GridLayoutManager.LayoutParams
             val index = glp.spanIndex
             var mMargin = margin
-            if (index %6 == 0)mMargin = 0// last item in span row is 6
-            val mlp = v.layoutParams as ViewGroup.MarginLayoutParams
-            mlp.marginEnd = mMargin
-            v.layoutParams = mlp
+            if (index == 6){// last item in span row is 6
+                mMargin = 0
+            }
+            glp.marginEnd = mMargin
+            v.layoutParams = glp
         }
     }
     private fun initItemDays(holder: DaysViewHolder, model: CalenderModel? ) {
@@ -152,7 +153,10 @@ class CalenderAdapter(
         holder.binding.disableLine.visibility = View.GONE
         holder.binding.dayFrame.alpha = 1f
         holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,18f)
-        setEndMargin(holder.binding.dayFrame , -42 , rootView = holder.binding.root)
+        setEndMargin(holder.binding.dayFrame ,
+            -42 ,
+            rootView = holder.binding.root ,
+           model?.date?.toString())
         when(model?.rangeState){
             CalenderModel.rangFlagStartEnd ->{
                 bcViewDrawable =  ResourcesCompat.getDrawable(
@@ -160,7 +164,10 @@ class CalenderAdapter(
                 )
             }
             CalenderModel.rangeFlagStart ->{
-                setEndMargin(holder.binding.dayFrame , 0 , rootView = holder.binding.root)
+                setEndMargin(holder.binding.dayFrame ,
+                    0 ,
+                    rootView = holder.binding.root,
+                    model?.date?.toString())
                 bcViewDrawable =  ResourcesCompat.getDrawable(
                     context.resources, startDrawableRefId, null
                 )
@@ -171,7 +178,10 @@ class CalenderAdapter(
                 )
             }
             CalenderModel.rangeFlagRange ->{
-                setEndMargin(holder.binding.dayFrame , 0 , rootView = holder.binding.root)
+                setEndMargin(holder.binding.dayFrame ,
+                    0 ,
+                    rootView = holder.binding.root,
+                    model?.date?.toString())
                 bcViewDrawable =  ResourcesCompat.getDrawable(
                     context.resources, rangeDrawableRefId, null
                 )

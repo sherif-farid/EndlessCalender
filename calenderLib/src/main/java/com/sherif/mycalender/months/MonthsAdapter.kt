@@ -41,7 +41,7 @@ class MonthsAdapter(
             Log.v(TAG , "width $width")
             val lp = dayBind.root.layoutParams
             lp.apply {
-                this.height = width
+//                this.height = width
             }
             dayBind.root.layoutParams = lp
         }

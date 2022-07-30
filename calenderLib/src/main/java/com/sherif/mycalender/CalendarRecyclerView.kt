@@ -92,11 +92,16 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
         bookedList: ArrayList<GathernReservationModel?>?,
         busyList: ArrayList<String?>?
     ) {
-        bookedList?.forEach {
-            this.bookedDates?.add(GathernReservationModel(checkInDate = it?.checkInDate ,
-                checkoutDate = getYesterday(it?.checkoutDate?:"") ,
-                clientName = it?.clientName))
+        if (bookedList != null) {
+            for (item in bookedList){
+                this.bookedDates?.add(
+                    GathernReservationModel(checkInDate = item?.checkInDate ,
+                    checkoutDate = getYesterday(item?.checkoutDate?:"") ,
+                    clientName = item?.clientName)
+                )
+            }
         }
+
         this.busyList = busyList
         Log.v(TAG, "initialize RV")
         initList(12)

@@ -40,6 +40,13 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         )
         bookedList.add(
             GathernReservationModel(
+                checkInDate = "2022-07-06",
+                checkoutDate = "2022-07-07",
+                clientName = "احمد"
+            )
+        )
+        bookedList.add(
+            GathernReservationModel(
                 checkInDate = "2022-07-07",
                 checkoutDate = "2022-07-08",
                 clientName = "محمد"
@@ -68,15 +75,22 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         )
         bookedList.add(
             GathernReservationModel(
-                checkInDate = "2022-08-12",
-                checkoutDate = "2022-08-14",
+                checkInDate = "2022-08-10",
+                checkoutDate = "2022-08-15",
                 clientName = "عبدالله احمد محمد"
             )
         )
         bookedList.add(
             GathernReservationModel(
                 checkInDate = "2022-08-23",
-                checkoutDate = "2022-09-01",
+                checkoutDate = "2022-08-25",
+                clientName = "عبدالله احمد محمد"
+            )
+        )
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-08-25",
+                checkoutDate = "2022-08-28",
                 clientName = "عبدالله احمد محمد"
             )
         )
@@ -85,6 +99,9 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         }
         binding?.monthsRv2?.post {
             binding?.monthsRv2?.initialize(bookedList = bookedList)
+        }
+        binding?.monthsRv3?.post {
+            binding?.monthsRv3?.initialize(bookedList = bookedList)
         }
 
         binding?.calenderRv?.post {
