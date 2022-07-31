@@ -35,15 +35,15 @@ class MonthsAdapter(
         val inflater = LayoutInflater.from(parent.context)
          val dayBind: MonthViewBinding = MonthViewBinding.inflate(inflater, parent, false)
         dayBind.root.post {
-            val height = dayBind.root.height
-            val width = dayBind.root.width
-            Log.v(TAG , "height $height")
-            Log.v(TAG , "width $width")
+            val width = dayBind.baseView.width
+            logs(TAG , "before height ${dayBind.root.height} width ${dayBind.root.width}")
             val lp = dayBind.root.layoutParams
             lp.apply {
-//                this.height = width
+                this.height = width
             }
             dayBind.root.layoutParams = lp
+            dayBind.root.requestLayout()
+            logs(TAG , "after height ${dayBind.root.height} width ${dayBind.root.width}")
         }
          return DaysViewHolder(dayBind)
     }

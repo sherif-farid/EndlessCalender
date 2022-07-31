@@ -107,10 +107,10 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         binding?.calenderRv?.post {
             binding?.calenderRv?.initialize(
                 bookedList = bookedList,
-                busyList = arrayListOf("2022-07-30", "2022-07-26", "2022-07-21")
+                busyList = arrayListOf("2022-07-30", "2022-07-26", "2022-07-21") ,
+                prevMonth = 1
             )
         }
-        binding?.calenderRv?.prevMonths  = 1
     }
 
     override fun onSelected(availableList: ArrayList<String>?, busyList: ArrayList<String>?) {

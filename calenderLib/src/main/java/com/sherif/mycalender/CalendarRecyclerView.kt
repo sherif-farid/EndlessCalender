@@ -31,13 +31,6 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
     private var rangeDrawableRefId = 0
     private var singleDrawableRefId = 0
     private var mPrevMonth = 0
-    var prevMonths = 0
-    set(value) {
-        field = value
-        mPrevMonth = value
-        initialize(bookedList = bookedDates ,
-        busyList = busyList)
-    }
     private var onDateSelected: OnDateSelected? = null
     private val TAG = "CalendarRecyclerView"
     private var calenderAdapter: CalenderAdapter? = null
@@ -90,8 +83,10 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
 
     fun initialize(
         bookedList: ArrayList<GathernReservationModel?>?,
-        busyList: ArrayList<String?>?
+        busyList: ArrayList<String?>? ,
+        prevMonth:Int = 0
     ) {
+        this.mPrevMonth = prevMonth
         if (bookedList != null) {
             for (item in bookedList){
                 this.bookedDates?.add(
