@@ -20,6 +20,11 @@ import kotlin.collections.ArrayList
 
 
 class CalendarRecyclerView : RecyclerView, OnDateSelected {
+    private var position :Int= 0
+        set(value) {
+            field = value
+            if (field < 0)field = 0
+        }
     private var isLoading: Boolean = false
     private var bookedDates: ArrayList<GathernReservationModel?>? = ArrayList()
     private var busyList: ArrayList<String?>? = null
@@ -120,6 +125,9 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
         var monthsAdded = 0
         while (monthsAdded < months) {
             val date = calStartDate.time
+            if (isCurrentMonth(date) == true){
+                position =calenderList.size -1
+            }
             calenderList.add(CalenderModel(date, CalenderModel.titleViewType))// add month title
             calenderList.add(CalenderModel(date, CalenderModel.weekDaysViewType)) // add week days
             val currentMonth = calStartDate[Calendar.MONTH]
@@ -266,8 +274,10 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
             }
         }
         this.adapter = calenderAdapter
-        if (this.layoutManager == null)
+        if (this.layoutManager == null) {
             this.layoutManager = layoutManager
+        }
+        this.scrollToPosition(position)
         initScrollListener()
     }
 

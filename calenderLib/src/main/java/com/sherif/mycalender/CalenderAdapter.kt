@@ -189,7 +189,7 @@ class CalenderAdapter(
         }
         when (model?.shapeState) {
             CalenderModel.shapeFlagDisabled -> {
-                holder.binding.dayFrame.alpha = 0.2f
+                holder.binding.dayFrame.alpha = 0.5f
                 if (model.clientName.isNotEmpty()){
                     dayTextDrawable = ResourcesCompat.getDrawable(
                         context.resources, bookedDrawableRefId, null
@@ -299,11 +299,11 @@ class CalenderAdapter(
             arrayList.forEach {
                 // free days selected to be busy
                 if (it.shapeState == CalenderModel.shapeFlagSingleSelection && !it.isBusy) {
-                    availableList.add(parseDate(it.date) ?: "")
+                    availableList.add(parseDateToString(it.date) ?: "")
                 }
                 // busy days selected to remove busy and make it available
                 if (it.isBusy && it.shapeState == CalenderModel.shapeFlagSingleSelection){
-                    busyList.add(parseDate(it.date) ?: "")
+                    busyList.add(parseDateToString(it.date) ?: "")
                 }
             }
             onDateSelected?.onSelected(availableList ,busyList )
@@ -322,20 +322,5 @@ class CalenderAdapter(
             model.shapeState = CalenderModel.shapeFlagNone
         }
         notifyDataSetChanged()
-    }
-    private fun isToday(date: Date?):Boolean {
-        val dateSt = parseDate(date)
-        val today = parseDate(Date())
-        return dateSt == today
-    }
-    private fun parseDate(date: Date?): String? {
-        if (date == null) return null
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        return try {
-            sdf.format(date)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
     }
 }

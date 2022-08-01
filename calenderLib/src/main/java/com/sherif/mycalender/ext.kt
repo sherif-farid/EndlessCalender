@@ -59,3 +59,23 @@ fun getYesterday(date:String):String{
     val yesDate = Date(checkoutTime - oneDay)
     return parseDateToString(yesDate)?:""
 }
+fun getToday():String?{
+    return parseDateToString(Date())
+}
+fun isToday(date: Date?):Boolean {
+    val dateSt = parseDateToString(date)
+    return dateSt == getToday()
+}
+fun isCurrentMonth(date: Date?):Boolean? {
+    if (date == null) return null
+    val sdf = SimpleDateFormat("yyyy-MM", Locale.ENGLISH)
+    try {
+       val currentMonth =  sdf.format(Date())
+       val comparableMonth = sdf.format(date)
+       return currentMonth == comparableMonth
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return false
+}
+
