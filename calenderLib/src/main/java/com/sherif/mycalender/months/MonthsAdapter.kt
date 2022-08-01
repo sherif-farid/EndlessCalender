@@ -74,7 +74,7 @@ class MonthsAdapter(
         }
         var baseViewBc: Drawable? = null
         var rootFrameBc: Drawable? = null
-        when(model?.rangeState){
+        when(model.rangeState){
             MonthModel.rangFlagStartEnd ->{
                 rootFrameBc =  /*ResourcesCompat.getDrawable(
                     context.resources, R.drawable.month_start_end, null
@@ -86,6 +86,7 @@ class MonthsAdapter(
                 )
             }
             MonthModel.rangeFlagEnd ->{
+                logs(TAG , "rangeFlagEnd date ${model.date}")
                 baseViewBc = ResourcesCompat.getDrawable(
                     context.resources, R.drawable.month_end_shape, null
                 )
@@ -96,14 +97,14 @@ class MonthsAdapter(
                 )
             }
         }
-        when (model?.shapeState) {
+        when (model.shapeState) {
             MonthModel.shapeFlagBooked -> {
                 baseViewBc = ResourcesCompat.getDrawable(
                     context.resources, R.drawable.month_booked_shape, null
                 )
             }
             MonthModel.shapeFlagNone -> {
-                 if (isToday(model.date)) {
+                 if (isToday(model.date) && baseViewBc == null) {
                      baseViewBc =   ResourcesCompat.getDrawable(
                         context.resources, R.drawable.today, null
                     )

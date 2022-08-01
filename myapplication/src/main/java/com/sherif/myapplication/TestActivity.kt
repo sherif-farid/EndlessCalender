@@ -68,29 +68,29 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         )
         bookedList.add(
             GathernReservationModel(
-                checkInDate = "2022-07-29",
-                checkoutDate = "2022-07-30",
+                checkInDate = "2022-07-31",
+                checkoutDate = "2022-08-02",
                 clientName = "هاني"
             )
         )
         bookedList.add(
             GathernReservationModel(
-                checkInDate = "2022-08-10",
-                checkoutDate = "2022-08-15",
+                checkInDate = "2022-08-02",
+                checkoutDate = "2022-08-03",
                 clientName = "عبدالله احمد محمد"
             )
         )
         bookedList.add(
             GathernReservationModel(
-                checkInDate = "2022-08-23",
-                checkoutDate = "2022-08-25",
+                checkInDate = "2022-08-03",
+                checkoutDate = "2022-08-04",
                 clientName = "عبدالله احمد محمد"
             )
         )
         bookedList.add(
             GathernReservationModel(
-                checkInDate = "2022-08-25",
-                checkoutDate = "2022-08-28",
+                checkInDate = "2022-08-31",
+                checkoutDate = "2022-09-02",
                 clientName = "عبدالله احمد محمد"
             )
         )
