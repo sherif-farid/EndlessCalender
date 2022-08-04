@@ -99,7 +99,9 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
             GathernReservationModel(
                 checkInDate = "2022-08-28",
                 checkoutDate = "2022-09-04",
-                clientName = "إستقبال"
+                clientName = "إستقبال",
+                id = "my-id" ,
+                type = 33
             )
         )
         binding?.monthsRv1?.post {

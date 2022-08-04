@@ -97,7 +97,9 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
                 this.bookedDates?.add(
                     GathernReservationModel(checkInDate = item?.checkInDate ,
                     checkoutDate = getYesterday(item?.checkoutDate?:"") ,
-                    clientName = item?.clientName)
+                    clientName = item?.clientName ,
+                    id = item?.id ,
+                    type = item?.type)
                 )
             }
         }
