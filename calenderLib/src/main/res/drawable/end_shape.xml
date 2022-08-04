@@ -3,4 +3,5 @@
     <solid android:color="@color/primary_trans_20"/>
     <corners android:topLeftRadius="60dp"
         android:bottomLeftRadius="60dp"/>
+    <size android:width="50dp" android:height="50dp"/>
 </shape>

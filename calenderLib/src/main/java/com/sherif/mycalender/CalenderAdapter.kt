@@ -28,15 +28,7 @@ import kotlin.collections.ArrayList
 class CalenderAdapter(
     private val context: Context,
     private val arrayList: ArrayList<CalenderModel>,
-    private val showWeekDays: Boolean,
-    private val busyDrawableRefId: Int = R.drawable.busy_shape,
-    private val bookedDrawableRefId: Int = R.drawable.booked_shape,
-    private val singleDrawableRefId: Int = R.drawable.single_selection,
-    private val endDrawableRefId : Int=R.drawable.end_shape,
-    private val rangeDrawableRefId: Int=R.drawable.range_shape,
-    private val startDrawableRefId:Int = R.drawable.start_shape ,
-    private val startEndDrawableRefId:Int = R.drawable.start_end,
-    private val todayDrawableRefId:Int = R.drawable.today
+    private val showWeekDays: Boolean
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -123,18 +115,18 @@ class CalenderAdapter(
         holder.binding.fri.text = array[5]
         holder.binding.sat.text = array[6]
     }
-    private fun setEndMargin(v:View ,margin:Int , rootView:View , date:String?){
-        rootView.post {
-            val glp = rootView.layoutParams as GridLayoutManager.LayoutParams
-            val index = glp.spanIndex
-            var mMargin = margin
-            if (index == 6){// last item in span row is 6
-                mMargin = 0
-            }
-            glp.marginEnd = mMargin
-            v.layoutParams = glp
-        }
-    }
+//    private fun setEndMargin(v:View ,margin:Int , rootView:View , date:String?){
+//        rootView.post {
+//            val glp = rootView.layoutParams as GridLayoutManager.LayoutParams
+//            val index = glp.spanIndex
+//            var mMargin = margin
+//            if (index == 6){// last item in span row is 6
+//                mMargin = 0
+//            }
+//            glp.marginEnd = mMargin
+//            v.layoutParams = glp
+//        }
+//    }
     private fun initItemDays(holder: DaysViewHolder, model: CalenderModel? ) {
         var day = 0
         if (model?.date != null) {
@@ -153,23 +145,23 @@ class CalenderAdapter(
         holder.binding.disableLine.visibility = View.GONE
         holder.binding.dayFrame.alpha = 1f
         holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,18f)
-        setEndMargin(holder.binding.dayFrame ,
-            -42 ,
-            rootView = holder.binding.root ,
-           model?.date?.toString())
+//        setEndMargin(holder.binding.dayFrame ,
+//            -42 ,
+//            rootView = holder.binding.root ,
+//           model?.date?.toString())
         when(model?.rangeState){
             CalenderModel.rangFlagStartEnd ->{
                 bcViewDrawable =  ResourcesCompat.getDrawable(
-                    context.resources, startEndDrawableRefId, null
+                    context.resources,  R.drawable.start_end, null
                 )
             }
             CalenderModel.rangeFlagStart ->{
-                setEndMargin(holder.binding.dayFrame ,
-                    0 ,
-                    rootView = holder.binding.root,
-                    model?.date?.toString())
+//                setEndMargin(holder.binding.dayFrame ,
+//                    0 ,
+//                    rootView = holder.binding.root,
+//                    model?.date?.toString())
                 bcViewDrawable =  ResourcesCompat.getDrawable(
-                    context.resources, startDrawableRefId, null
+                    context.resources, R.drawable.start_shape , null
                 )
             }
             CalenderModel.rangeFlagEnd ->{
@@ -177,21 +169,21 @@ class CalenderAdapter(
                     context.resources,
                     R.color.colorPrimary, null
                 )
-                bcViewDrawable =  ResourcesCompat.getDrawable(
-                    context.resources, endDrawableRefId, null
-                )
+//                bcViewDrawable =  ResourcesCompat.getDrawable(
+//                    context.resources, R.drawable.end_shape, null
+//                )
             }
             CalenderModel.rangeFlagRange ->{
                 textColor = ResourcesCompat.getColor(
                     context.resources,
                     R.color.colorPrimary, null
                 )
-                setEndMargin(holder.binding.dayFrame ,
-                    0 ,
-                    rootView = holder.binding.root,
-                    model?.date?.toString())
+//                setEndMargin(holder.binding.dayFrame ,
+//                    0 ,
+//                    rootView = holder.binding.root,
+//                    model?.date?.toString())
                 bcViewDrawable =  ResourcesCompat.getDrawable(
-                    context.resources, rangeDrawableRefId, null
+                    context.resources, R.drawable.range_shape, null
                 )
             }
         }
@@ -200,7 +192,7 @@ class CalenderAdapter(
                 holder.binding.dayFrame.alpha = 0.5f
                 if (model.clientName.isNotEmpty()){
                     dayTextDrawable = ResourcesCompat.getDrawable(
-                        context.resources, bookedDrawableRefId, null
+                        context.resources, R.drawable.booked_shape, null
                     )
                     textColor = ResourcesCompat.getColor(
                         context.resources,
@@ -211,7 +203,7 @@ class CalenderAdapter(
             }
             CalenderModel.shapeFlagBooked -> {
                 dayTextDrawable = ResourcesCompat.getDrawable(
-                    context.resources, bookedDrawableRefId, null
+                    context.resources, R.drawable.booked_shape, null
                 )
                 textColor = ResourcesCompat.getColor(
                     context.resources,
@@ -223,7 +215,7 @@ class CalenderAdapter(
             CalenderModel.shapeFlagNone -> {
                 dayTextDrawable = if (isToday(model.date)) {
                     ResourcesCompat.getDrawable(
-                        context.resources, todayDrawableRefId, null
+                        context.resources, R.drawable.today, null
                     )
                 }else {
                     null
@@ -235,14 +227,14 @@ class CalenderAdapter(
                     R.color.mywhite, null
                 )
                 dayTextDrawable = ResourcesCompat.getDrawable(
-                    context.resources, singleDrawableRefId, null
+                    context.resources, R.drawable.single_selection, null
                 )
             }
         }
 
         if (model?.isBusy == true && model.shapeState != CalenderModel.shapeFlagSingleSelection){
             dayTextDrawable= ResourcesCompat.getDrawable(
-                context.resources, busyDrawableRefId, null
+                context.resources, R.drawable.busy_shape, null
             )
             holder.binding.disableLine.visibility = View.VISIBLE
         }
