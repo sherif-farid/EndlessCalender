@@ -144,15 +144,18 @@ class CalenderAdapter(
         var textColor = ResourcesCompat.getColor(context.resources, R.color.textBlackColor, null)
         holder.binding.disableLine.visibility = View.GONE
         holder.binding.dayFrame.alpha = 1f
+        holder.binding.endView.alpha = 1f
         holder.binding.day.setTextSize(TypedValue.COMPLEX_UNIT_SP,18f)
+        holder.binding.endView.visibility = View.GONE
 //        setEndMargin(holder.binding.dayFrame ,
 //            -42 ,
 //            rootView = holder.binding.root ,
 //           model?.date?.toString())
         when(model?.rangeState){
             CalenderModel.rangFlagStartEnd ->{
+                holder.binding.endView.visibility = View.VISIBLE
                 bcViewDrawable =  ResourcesCompat.getDrawable(
-                    context.resources,  R.drawable.start_end, null
+                    context.resources,  R.drawable.start_shape, null
                 )
             }
             CalenderModel.rangeFlagStart ->{
@@ -165,6 +168,7 @@ class CalenderAdapter(
                 )
             }
             CalenderModel.rangeFlagEnd ->{
+                holder.binding.endView.visibility = View.VISIBLE
                 textColor = ResourcesCompat.getColor(
                     context.resources,
                     R.color.colorPrimary, null
@@ -214,6 +218,7 @@ class CalenderAdapter(
             }
             CalenderModel.shapeFlagNone -> {
                 dayTextDrawable = if (isToday(model.date)) {
+                    holder.binding.endView.alpha = 0.5f
                     ResourcesCompat.getDrawable(
                         context.resources, R.drawable.today, null
                     )

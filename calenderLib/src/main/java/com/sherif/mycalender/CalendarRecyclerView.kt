@@ -96,7 +96,7 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
             for (item in bookedList){
                 this.bookedDates?.add(
                     GathernReservationModel(checkInDate = item?.checkInDate ,
-                    checkoutDate = getYesterday(item?.checkoutDate?:"") ,
+                    checkoutDate =/* getYesterday(item?.checkoutDate?:"")*/ item?.checkoutDate,
                     clientName = item?.clientName)
                 )
             }
@@ -159,6 +159,9 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
                 val isStart = indexStart != null
                 val indexEnd = bookedDates?.containGathernEnd( parseDateToString(model.date))
                 val isEnd = indexEnd != null
+                val isStartedBeforeMonth = bookedDates.isContainReservation(parseDateToString(model.date))
+                logs(TAG , "keys isStart $isStart isEnd $isEnd  isStartedBeforeMonth $isStartedBeforeMonth date ${model.date}")
+
                 if (isStart) {
                     bookingTag = indexStart
                     isRange = true
@@ -172,6 +175,9 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
                 }else if (isEnd){
                     isRange = false
                     model.rangeState = CalenderModel.rangeFlagEnd
+                }
+                if (isStartedBeforeMonth != null){
+                    isRange = true
                 }
                 if (isRange&& !isStart){
                     model.rangeState = CalenderModel.rangeFlagRange
@@ -230,9 +236,7 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
                 val indexEnd = bookedDates?.containGathernEnd( parseDateToString(model.date))
                 val isEnd = indexEnd != null
                 val isStartedBeforeMonth = bookedDates.isContainReservation(parseDateToString(model.date))
-                if (isStartedBeforeMonth != null){
-                    isRange = true
-                }
+                logs(TAG , "keys isStart $isStart isEnd $isEnd  isStartedBeforeMonth $isStartedBeforeMonth date ${model.date}")
                 if (isStart) {
                     bookingTag = indexStart
                     isRange = true
@@ -246,6 +250,9 @@ class CalendarRecyclerView : RecyclerView, OnDateSelected {
                 }else if (isEnd){
                     isRange = false
                     model.rangeState = CalenderModel.rangeFlagEnd
+                }
+                if (isStartedBeforeMonth != null){
+                    isRange = true
                 }
                 if (isRange && !isStart){
                     model.rangeState = CalenderModel.rangeFlagRange
