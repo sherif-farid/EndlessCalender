@@ -173,11 +173,19 @@ class CalenderAdapter(
                 )
             }
             CalenderModel.rangeFlagEnd ->{
+                textColor = ResourcesCompat.getColor(
+                    context.resources,
+                    R.color.colorPrimary, null
+                )
                 bcViewDrawable =  ResourcesCompat.getDrawable(
                     context.resources, endDrawableRefId, null
                 )
             }
             CalenderModel.rangeFlagRange ->{
+                textColor = ResourcesCompat.getColor(
+                    context.resources,
+                    R.color.colorPrimary, null
+                )
                 setEndMargin(holder.binding.dayFrame ,
                     0 ,
                     rootView = holder.binding.root,
@@ -277,13 +285,13 @@ class CalenderAdapter(
 
             if (clickedModel.rangeState == CalenderModel.rangeFlagRange ||
                 clickedModel.rangeState == CalenderModel.rangeFlagEnd) {
-                onDateSelected?.onBookedDatesSelected()
+                onDateSelected?.onBookedDatesSelected(clickedModel.bookingTag)
                 return
             }
             if (clickedModel.date == null) return
             if (clickedModel.shapeState == CalenderModel.shapeFlagDisabled) return
             if (clickedModel.shapeState == CalenderModel.shapeFlagBooked ) {
-                onDateSelected?.onBookedDatesSelected()
+                onDateSelected?.onBookedDatesSelected(clickedModel.bookingTag)
                 return
             }
 

@@ -74,10 +74,14 @@ class MonthView : RecyclerView {
 
         while (calStartDate[Calendar.MONTH] == currentMonth) {
             val model = MonthModel(calStartDate.time)
-            val indexStart = bookedDates?.containGathernStart(parseDateToString(model.date))?:-1
-            val isStart = indexStart > -1
-            val indexEnd = bookedDates?.containGathernEnd(parseDateToString(model.date) )?:-1
-            val isEnd = indexEnd > -1
+            val indexStart = bookedDates?.containGathernStart(parseDateToString(model.date))
+            val isStart = indexStart != null
+            val indexEnd = bookedDates?.containGathernEnd(parseDateToString(model.date) )
+            val isEnd = indexEnd != null
+            val isStartedBeforeMonth = bookedDates.isContainReservation(parseDateToString(model.date))
+            if (isStartedBeforeMonth != null){
+                isRange = true
+            }
             logs(tag , "isStart $isStart isEnd $isEnd date ${model.date}")
             if (isStart) {
                 isRange = true

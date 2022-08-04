@@ -26,8 +26,8 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         val bookedList = ArrayList<GathernReservationModel?>()
         bookedList.add(
             GathernReservationModel(
-                checkInDate = "2022-07-01",
-                checkoutDate = "2022-07-02",
+                checkInDate = "2022-06-01",
+                checkoutDate = "2022-07-04",
                 clientName = "تامر"
             )
         )
@@ -42,7 +42,7 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
             GathernReservationModel(
                 checkInDate = "2022-07-06",
                 checkoutDate = "2022-07-07",
-                clientName = "احمد"
+                clientName = "إحمدددددد محمد احمد"
             )
         )
         bookedList.add(
@@ -69,29 +69,37 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         bookedList.add(
             GathernReservationModel(
                 checkInDate = "2022-07-31",
-                checkoutDate = "2022-08-02",
-                clientName = "هاني"
-            )
-        )
-        bookedList.add(
-            GathernReservationModel(
-                checkInDate = "2022-08-02",
                 checkoutDate = "2022-08-03",
-                clientName = "عبدالله احمد محمد"
+                clientName = "هاني"
             )
         )
         bookedList.add(
             GathernReservationModel(
                 checkInDate = "2022-08-03",
                 checkoutDate = "2022-08-04",
-                clientName = "عبدالله احمد محمد"
+                clientName = "هاني"
             )
         )
         bookedList.add(
             GathernReservationModel(
-                checkInDate = "2022-08-31",
-                checkoutDate = "2022-09-02",
-                clientName = "عبدالله احمد محمد"
+                checkInDate = "2022-08-06",
+                checkoutDate = "2022-08-07",
+                clientName = "هاني"
+            )
+        )
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-08-08",
+                checkoutDate = "2022-08-09",
+                clientName = "هاني"
+            )
+        )
+
+        bookedList.add(
+            GathernReservationModel(
+                checkInDate = "2022-08-28",
+                checkoutDate = "2022-09-04",
+                clientName = "إستقبال"
             )
         )
         binding?.monthsRv1?.post {
@@ -120,8 +128,8 @@ class TestActivity : AppCompatActivity(), OnDateSelected {
         Log.v("MainActivityTag", "busyList : $busyList")
     }
 
-    override fun onBookedDatesSelected() {
-        Log.v("MainActivityTag", "onBookedDatesSelected")
+    override fun onBookedDatesSelected(model: GathernReservationModel?) {
+        Log.v("MainActivityTag", "onBookedDatesSelected model $model")
     }
 
     override fun onBackPressed() {

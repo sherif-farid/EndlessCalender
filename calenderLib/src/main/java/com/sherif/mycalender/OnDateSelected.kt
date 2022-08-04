@@ -10,5 +10,5 @@ package com.sherif.mycalender
 
 interface OnDateSelected {
     fun onSelected(availableList:ArrayList<String>? , busyList:ArrayList<String>?)
-    fun onBookedDatesSelected()
+    fun onBookedDatesSelected(model: GathernReservationModel?)
 }

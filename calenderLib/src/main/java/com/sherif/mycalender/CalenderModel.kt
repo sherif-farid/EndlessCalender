@@ -15,7 +15,8 @@ import java.util.*
 class CalenderModel(var date: Date?,
                     var viewType: Int ,
                     var isBusy:Boolean = false ,
-                    var clientName:String = "" ) {
+                    var clientName:String = "" ,
+                    var bookingTag:GathernReservationModel? = null) {
      var rangeState = 0
      var shapeState = shapeFlagNone
         set(value) {
